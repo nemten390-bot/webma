@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mã xác nhận</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#8B5CF6',
+                        darkBg: '#1A2435',
+                        cardBg: '#1E293B',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .dashed-border { border: 2px dashed #60A5FA; }
+        .btn-gradient { background: linear-gradient(to right, #4F46E5, #8B5CF6); transition: all 0.2s; }
+        .btn-gradient:hover { filter: brightness(1.1); }
+        .btn-gradient:active { transform: scale(0.97); }
+    </style>
+</head>
+<body class="bg-[#1A2435] min-h-screen flex items-center justify-center p-4">
+    <div class="bg-[#1E293B] rounded-2xl p-8 max-w-md w-full text-center shadow-xl">
+        <!-- Icon & Nhãn -->
+        <div class="w-20 h-20 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mx-auto mb-4">
+            <span class="text-4xl">🎁</span>
+        </div>
+        <div class="bg-blue-900/40 text-blue-300 font-medium py-1 px-4 rounded-full inline-block mb-6">
+            TRANG ĐÍCH
+        </div>
+
+        <h1 class="text-3xl font-bold text-white mb-3">Mã xác nhận của bạn</h1>
+        <p class="text-gray-300 mb-8">Hoàn thành nhiệm vụ rồi quay lại Mini App để nhập mã nhận thưởng.</p>
+
+        <!-- Khu vực hiển thị mã -->
+        <div class="dashed-border rounded-xl p-6 mb-8">
+            <p class="text-gray-400 mb-2 flex items-center justify-center gap-2">
+                🔍 MÃ XÁC NHẬN
+            </p>
+            <div id="codeDisplay" class="text-4xl font-bold text-white tracking-[0.3em] uppercase">
+                <!-- Mã sẽ hiện ở đây -->
+            </div>
+        </div>
+
+        <!-- Nút thao tác -->
+        <div class="flex flex-col gap-3">
+            <button id="copyBtn" class="btn-gradient text-white font-semibold py-3 px-6 rounded-xl flex items-center justify-center gap-2">
+                📋 Sao chép mã
+            </button>
+            <button id="newCodeBtn" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-xl transition-all">
+                🔄 Tạo mã mới
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Danh sách ký tự: chữ hoa + số (loại bỏ dễ nhầm lẫn O, I, 0, 1)
+        const CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        // Lưu lịch sử mã đã tạo để không trùng
+        let usedCodes = new Set();
+
+        // Tạo mã 6 ký tự ngẫu nhiên
+        function generateCode() {
+            let newCode;
+            // Lặp cho đến khi ra mã chưa từng dùng
+            do {
+                newCode = '';
+                for (let i = 0; i < 6; i++) {
+                    const randomIndex = Math.floor(Math.random() * CHARS.length);
+                    newCode += CHARS[randomIndex];
+                }
+            } while (usedCodes.has(newCode));
+            
+            usedCodes.add(newCode);
+            return newCode;
+        }
+
+        // Cập nhật mã lên giao diện
+        function updateCode() {
+            document.getElementById('codeDisplay').textContent = generateCode();
+        }
+
+        // Khởi tạo mã đầu tiên
+        updateCode();
+
+        // Nút tạo mã mới
+        document.getElementById('newCodeBtn').addEventListener('click', updateCode);
+
+        // Nút sao chép
+        document.getElementById('copyBtn').addEventListener('click', async () => {
+            const code = document.getElementById('codeDisplay').textContent;
+            try {
+                await navigator.clipboard.writeText(code);
+                const btn = document.getElementById('copyBtn');
+                const original = btn.innerHTML;
+                btn.innerHTML = '✅ Đã sao chép';
+                btn.classList.add('bg-green-600');
+                btn.classList.remove('btn-gradient');
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.classList.remove('bg-green-600');
+                    btn.classList.add('btn-gradient');
+                }, 1500);
+            } catch {
+                alert(`Vui lòng ghi nhớ mã: ${code}`);
+            }
+        });
+    </script>
+</body>
+</html>
