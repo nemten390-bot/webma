@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>MINING KINGDOM</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>tailwind.config={theme:{extend:{colors:{p:'#FFD700',s:'#FFF8E6',d:'#5C3A00',ok:'#22C55E',no:'#EF4444',w:'#FF8C00',b:'#2563EB',pu:'#9333EA'}}}}}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body{background:#FFF8E6;color:#5C3A00;font-family:system-ui,sans-serif;padding-bottom:20px}
+button{border:none;border-radius:12px;font-weight:600;cursor:pointer;transition:.08s}
+button:active{transform:scale(.96);opacity:.9}
+button:disabled{opacity:.5;cursor:not-allowed}
+.hd{position:sticky;top:0;background:#FFD700;padding:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;z-index:99;border-radius:0 0 16px 16px}
+.hd-t{font-size:24px;font-weight:800}
+.bal{display:flex;gap:6px;flex-wrap:wrap}
+.bal-i{background:rgba(255,255,255,.9);padding:6px 12px;border-radius:20px;font-weight:700;font-size:15px;display:flex;align-items:center;gap:4px}
+.tab{display:flex;background:rgba(255,255,255,.9);margin:10px 12px;border-radius:12px;overflow-x:auto;gap:4px;padding:4px}
+.tab-b{flex:1;min-width:70px;padding:10px 4px;font-size:13px;font-weight:500;background:0;border-radius:10px;color:#8B5A00;white-space:nowrap}
+.tab-b.a{background:#FFD700;color:#5C3A00;font-weight:700}
+.tab-c{display:none;padding:0 12px}
+.tab-c.a{display:block}
+.card{background:#fff;border-radius:14px;padding:14px;margin:10px 0;border:3px solid #FFD700}
+.c-sm{border-radius:10px;padding:12px;margin:8px 0;border:2px solid #10B981;background:#FAFFFA}
+.c-kit{border-color:#F97316;background:#FFF7ED}
+.c-sell{border-color:#22C55E;background:#F0FDF4}
+.prog{height:8px;background:#E5E7EB;border-radius:4px;overflow:hidden;margin:6px 0}
+.prog-f{height:100%;background:#FF8C00;width:0;transition:.15s linear}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #FDE68A;gap:6px;flex-wrap:wrap}
+.row:last-child{border-bottom:none}
+.worker{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #E5E7EB;font-size:13px;gap:4px}
+.worker:last-child{border-bottom:none}
+.alert{background:#FFF3E0;border:2px solid #FFD700;border-radius:10px;padding:10px;margin:10px 0;font-weight:600;color:#B45309;font-size:14px}
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:12px 20px;border-radius:10px;display:none;z-index:9999;font-size:15px;max-width:90%;text-align:center}
+.wrap{position:relative;width:260px;height:260px;margin:16px auto}
+.pointer{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:36px;color:#EF4444;z-index:10}
+#wheel{width:100%;height:100%;border-radius:50%;border:6px solid #9333EA;transition:transform 4.5s cubic-bezier(.17,.67,.13,.99)}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center;padding:16px}
+.modal-content{background:#fff;width:100%;max-width:380px;border-radius:20px;padding:24px;box-shadow:0 10px 25px rgba(0,0,0,.2)}
+</style>
+</head>
+<body>
+<div class="hd">
+<div class="flex items-center gap-2"><span class="text-2xl">⛏️</span><div class="hd-t">MINING KINGDOM</div></div>
+<div class="bal">
+<div class="bal-i">💰<span id="g">142</span></div>
+<div class="bal-i">🧲<span id="i">44</span></div>
+<div class="bal-i">🎫<span id="t">6</span></div>
+<div class="bal-i">⚡<span id="sp">0.000</span>/s</div>
+</div>
+</div>
+
+<div class="tab">
+<button onclick="o('f')" class="tab-b a">🌾 Nông Trại</button>
+<button onclick="o('m')" class="tab-b">⛏️ Đào Quặng</button>
+<button onclick="o('w')" class="tab-b">🎡 Vòng Quay</button>
+<button onclick="o('k')" class="tab-b">🔗 Nhiệm Vụ</button>
+<button onclick="o('wd')" class="tab-b">💳 Rút Tiền</button>
+</div>
+
+<div class="tab-c a" id="f">
+<div class="card">
+<h2 class="text-lg font-bold mb-3">🌱 TRỒNG TRỌT</h2>
+<div class="c-sm">
+<div class="flex justify-between mb-1"><span>Hạt:<span id="fs">10</span></span><span>Quả:<span id="fc">0</span></span></div>
+<div class="prog"><div id="fp" class="prog-f"></div></div>
+<div class="flex gap-2 mt-2">
+<button onclick="b('f',10)" class="px-3 py-1 bg-gray-200 text-sm">Mua 10💰</button>
+<button onclick="h('f')" class="px-3 py-1 bg-green-500 text-white text-sm">Thu hoạch</button>
+</div>
+</div>
+<div class="c-sm">
+<div class="flex justify-between mb-1"><span>Hạt:<span id="vs">10</span></span><span>Rau:<span id="vc">0</span></span></div>
+<div class="prog"><div id="vp" class="prog-f"></div></div>
+<div class="flex gap-2 mt-2">
+<button onclick="b('v',8)" class="px-3 py-1 bg-gray-200 text-sm">Mua 8💰</button>
+<button onclick="h('v')" class="px-3 py-1 bg-green-500 text-white text-sm">Thu hoạch</button>
+</div>
+</div>
+<div class="c-sm">
+<div class="flex justify-between mb-1"><span>Hạt:<span id="rs">5</span></span><span>Lúa:<span id="rc">0</span></span></div>
+<div class="prog"><div id="rp" class="prog-f"></div></div>
+<div class="flex gap-2 mt-2">
+<button onclick="b('r',12)" class="px-3 py-1 bg-gray-200 text-sm">Mua 12💰</button>
+<button onclick="h('r')" class="px-3 py-1 bg-green-500 text-white text-sm">Thu hoạch</button>
+</div>
+</div>
+</div>
+
+<div class="card c-kit">
+<h2 class="text-lg font-bold mb-3">🍳 CHẾ BIẾN</h2>
+<div class="c-sm c-kit">
+<div class="flex justify-between mb-1"><span>Nguyên liệu:<span id="jm">0</span></span><span>Thành phẩm:<span id="jc">0</span></span></div>
+<div class="prog"><div id="jp" class="prog-f"></div></div>
+<button onclick="mk('j','fc',5)" class="w-full py-1 bg-orange-500 text-white mt-1">Nước ép (5 quả)</button>
+</div>
+<div class="c-sm c-kit">
+<div class="flex justify-between mb-1"><span>Nguyên liệu:<span id="sm">0</span></span><span>Thành phẩm:<span id="sc">0</span></span></div>
+<div class="prog"><div id="spf" class="prog-f"></div></div>
+<button onclick="mk('s','vc',4)" class="w-full py-1 bg-orange-500 text-white mt-1">Salad (4 rau)</button>
+</div>
+<div class="c-sm c-kit">
+<div class="flex justify-between mb-1"><span>Nguyên liệu:<span id="fm">0</span></span><span>Thành phẩm:<span id="fmc">0</span></span></div>
+<div class="prog"><div id="fmp" class="prog-f"></div></div>
+<button onclick="mk('fm','rc',6)" class="w-full py-1 bg-orange-500 text-white mt-1">Chế biến lúa (6 lúa)</button>
+</div>
+</div>
+
+<div class="card c-sell">
+<h2 class="text-lg font-bold mb-3">🛒 BÁN HÀNG</h2>
+<div class="row"><span>🍎 Quả:<span id="sf">0</span></span><span class="font-bold">1💰</span><button onclick="sl('fc',1)" class="px-2 py-1 bg-green-500 text-white text-xs">Bán hết</button></div>
+<div class="row"><span>🥬 Rau:<span id="sv">0</span></span><span class="font-bold">1💰</span><button onclick="sl('vc',1)" class="px-2 py-1 bg-green-500 text-white text-xs">Bán hết</button></div>
+<div class="row"><span>🌾 Lúa:<span id="sr">0</span></span><span class="font-bold">2💰</span><button onclick="sl('rc',2)" class="px-2 py-1 bg-green-500 text-white text-xs">Bán hết</button></div>
+<div class="row"><span>🥤 Nước ép:<span id="sj">0</span></span><span class="font-bold">3💰</span><button onclick="sl('jc',3)" class="px-2 py-1 bg-purple-500 text-white text-xs">Bán hết</button></div>
+<div class="row"><span>🥗 Salad:<span id="ss">0</span></span><span class="font-bold">3💰</span><button onclick="sl('sc',3)" class="px-2 py-1 bg-purple-500 text-white text-xs">Bán hết</button></div>
+<div class="row"><span>🍚 Chế biến:<span id="sfc">0</span></span><span class="font-bold">3💰</span><button onclick="sl('fmc',3)" class="px-2 py-1 bg-purple-500 text-white text-xs">Bán hết</button></div>
+<button onclick="slall()" class="w-full py-2 bg-purple-600 text-white font-bold mt-2">📦 BÁN HẾT TẤT CẢ</button>
+</div>
+</div>
+
+<div class="tab-c" id="m">
+<div class="card">
+<h2 class="text-lg font-bold mb-3">⛏️ QUẢN LÝ MỎ & ĐÀO QUẶNG</h2>
+<div class="alert">💎 Tỷ lệ quy đổi: 7 Sắt = 1💰 | 1 Vàng = 3💰 | 1 Kim cương = 10💰<br>⚠️ Mỗi cấp chỉ mua được 1 thợ duy nhất. Nâng cấp thợ cấp cao hơn sẽ làm giảm 50% hiệu suất của các cấp thợ thấp hơn trước đó!</div>
+
+<h3 class="font-bold mb-2">👷 DANH SÁCH CẤP THỢ ĐÀO</h3>
+<div class="border border-blue-200 rounded-lg p-3 mb-4" id="worker-list"></div>
+
+<div class="flex justify-between p-3 bg-blue-50 rounded-lg mb-4">
+<div><div class="text-sm text-gray-600">Tổng vốn đầu tư</div><div class="text-xl font-bold" id="cap">0đ</div></div>
+<div class="text-right"><div class="text-sm text-gray-600">Tốc độ khai thác thực tế</div><div class="text-xl font-bold" id="tsp">0,000/s</div></div>
+</div>
+
+<h3 class="font-bold mb-2">📦 KHO QUẶNG HIỆN CÓ</h3>
+<div class="mb-2">🧲 Sắt: <span id="im">44</span> kg</div>
+<div class="mb-2">✨ Quặng Vàng: <span id="go">0</span> kg</div>
+<div class="mb-3">💎 Kim Cương: <span id="dm">0</span> viên</div>
+
+<button onclick="cv()" class="w-full py-3 bg-blue-600 text-white font-bold">💵 ĐỔI QUẶNG → TIỀN</button>
+</div>
+</div>
+
+<div class="tab-c" id="w">
+<div class="card">
+<h2 class="text-lg font-bold mb-3 text-center">🎡 VÒNG QUAY MAY MẮN</h2>
+<p class="text-center text-sm mb-3">Mỗi lượt quay tốn 1 vé 🎫 | Vé của bạn: <span id="tc">6</span></p>
+<div class="wrap"><div class="pointer">▼</div><canvas id="wheel" width="260" height="260"></canvas></div>
+<button id="wb" onclick="spin()" class="w-full py-2 bg-purple-600 text-white font-bold mt-2">🎯 QUAY NGAY</button>
+<div class="mt-4 p-3 bg-green-50 rounded-lg">
+<h3 class="font-bold mb-2">✅ ĐIỂM DANH HÀNG NGÀY</h3>
+<button onclick="ck()" class="w-full py-2 bg-green-500 text-white">Nhận vé ngẫu nhiên mỗi ngày</button>
+</div>
+</div>
+</div>
+
+<!-- TAB NHIỆM VỤ VƯỢT LINK -->
+<div class="tab-c" id="k">
+<div class="card">
+<h2 class="text-lg font-bold mb-3">🔗 NHIỆM VỤ VƯỢT LINK</h2>
+<div class="p-2 bg-yellow-50 rounded mb-3 text-sm">
+✅ Mỗi link tối đa <b>2 lần/ngày</b>.<br>
+🎁 Thưởng: <b>+300 Coin vàng +150 Sắt</b>.<br>
+💡 <i>Hoàn thành vượt link lấy mã từ trang đích rồi điền vào đây để nhận thưởng.</i>
+</div>
+
+<div class="p-3 bg-green-50 rounded mb-3 border border-green-200 flex justify-between items-center">
+<div class="flex-1">
+<div class="font-semibold">🔗 Link4m</div>
+<div class="text-xs text-gray-600 mt-1">Đã làm: <span id="l4">0</span>/2 lần/ngày</div>
+<div class="text-xs text-green-700 mt-1">🎁 Thưởng: +300 Coin vàng +150 Sắt</div>
+</div>
+<button onclick="startTask('l4', 'https://link4m.net/hxrZkJ')" class="px-4 py-2 bg-blue-500 text-white text-sm font-bold">Làm</button>
+</div>
+
+<div class="p-3 bg-green-50 rounded mb-3 border border-green-200 flex justify-between items-center">
+<div class="flex-1">
+<div class="font-semibold">🔗 Linktop</div>
+<div class="text-xs text-gray-600 mt-1">Đã làm: <span id="lt">0</span>/2 lần/ngày</div>
+<div class="text-xs text-green-700 mt-1">🎁 Thưởng: +300 Coin vàng +150 Sắt</div>
+</div>
+<button onclick="startTask('lt', 'https://linktop.one/zdmIu37BSM')" class="px-4 py-2 bg-blue-500 text-white text-sm font-bold">Làm</button>
+</div>
+
+<div class="p-3 bg-green-50 rounded mb-3 border border-green-200 flex justify-between items-center">
+<div class="flex-1">
+<div class="font-semibold">🔗 Octolink</div>
+<div class="text-xs text-gray-600 mt-1">Đã làm: <span id="oc">0</span>/2 lần/ngày</div>
+<div class="text-xs text-green-700 mt-1">🎁 Thưởng: +300 Coin vàng +150 Sắt</div>
+</div>
+<button onclick="startTask('oc', 'https://octolink.vip/3GYSZ2q')" class="px-4 py-2 bg-blue-500 text-white text-sm font-bold">Làm</button>
+</div>
+
+<div class="p-3 bg-green-50 rounded mb-3 border border-green-200 flex justify-between items-center">
+<div class="flex-1">
+<div class="font-semibold">🔗 Bbmkts</div>
+<div class="text-xs text-gray-600 mt-1">Đã làm: <span id="bb">0</span>/2 lần/ngày</div>
+<div class="text-xs text-green-700 mt-1">🎁 Thưởng: +300 Coin vàng +150 Sắt</div>
+</div>
+<button onclick="startTask('bb', 'https://bbmkts.com/go/xsiUm')" class="px-4 py-2 bg-blue-500 text-white text-sm font-bold">Làm</button>
+</div>
+</div>
+</div>
+
+<!-- TAB RÚT TIỀN -->
+<div class="tab-c" id="wd">
+<div class="card">
+<h2 class="text-lg font-bold mb-3">💳 RÚT TIỀN VỀ NGÂN HÀNG</h2>
+<div class="alert">📌 Min rút tối thiểu: <b>10.000 VNĐ</b>. Số dư khả dụng: <span id="wd-bal" class="font-bold text-green-600">0</span>💰</div>
+
+<div class="space-y-3 mb-4">
+<div>
+<label class="block text-xs font-semibold mb-1 text-gray-600">Tên Ngân Hàng</label>
+<input type="text" id="bank-name" placeholder="Ví dụ: Techcombank, MB Bank, VCB..." class="w-full p-2.5 border border-gray-300 rounded-xl text-sm outline-none focus:border-blue-500">
+</div>
+<div>
+<label class="block text-xs font-semibold mb-1 text-gray-600">Tên Người Thụ Hưởng</label>
+<input type="text" id="bank-holder" placeholder="VIET NAM" class="w-full p-2.5 border border-gray-300 rounded-xl text-sm uppercase outline-none focus:border-blue-500">
+</div>
+<div>
+<label class="block text-xs font-semibold mb-1 text-gray-600">Số Tài Khoản & Số Tiền Rút</label>
+<input type="text" id="bank-acc" placeholder="Số tài khoản ngân hàng" class="w-full p-2.5 border border-gray-300 rounded-xl text-sm mb-2 outline-none focus:border-blue-500">
+<input type="number" id="wd-amount" placeholder="Số tiền muốn rút (Min 10.000)" class="w-full p-2.5 border border-gray-300 rounded-xl text-sm outline-none focus:border-blue-500">
+</div>
+<button onclick="requestWithdraw()" class="w-full py-3 bg-green-600 text-white font-bold rounded-xl">💸 TẠO LỆNH RÚT TIỀN</button>
+</div>
+
+<h3 class="font-bold mb-2 text-sm">📋 LỊCH SỬ & TRẠNG THÁI RÚT TIỀN</h3>
+<div class="border border-gray-200 rounded-xl p-2 bg-gray-50 max-h-48 overflow-y-auto text-xs" id="wd-history">
+<div class="text-gray-500 text-center py-2">Chưa có lệnh rút tiền nào.</div>
+</div>
+</div>
+</div>
+
+<!-- POPUP NHẬP MÃ XÁC NHẬN -->
+<div id="modal-verify" class="modal">
+<div class="modal-content">
+<div class="text-center text-2xl font-extrabold mb-2">🎁 Nhận thưởng</div>
+<p class="text-center text-sm text-gray-600 mb-2">
+Nhập đúng mã bạn lấy được từ trang đích vượt link:
+</p>
+<input type="text" id="input-code" placeholder="Ví dụ: 0AOLP9" class="w-full p-3 border-2 border-gray-200 rounded-xl text-center font-bold uppercase outline-none mb-4 focus:border-orange-500">
+<div class="flex gap-3">
+<button onclick="verifyCode()" class="flex-[2] py-3 bg-orange-500 text-white rounded-xl font-bold">🎁 Nhận thưởng</button>
+<button onclick="closeModal()" class="flex-1 py-3 bg-gray-200 rounded-xl font-bold">Đóng</button>
+</div>
+</div>
+</div>
+
+<div id="ts" class="toast"></div>
+
+<script>
+const tg = window.Telegram?.WebApp;
+if(tg) tg.expand();
+
+const $=id=>document.getElementById(id),els={g:$('g'),i:$('i'),t:$('t'),sp:$('sp'),fs:$('fs'),vs:$('vs'),rs:$('rs'),fc:$('fc'),vc:$('vc'),rc:$('rc'),fp:$('fp'),vp:$('vp'),rp:$('rp'),jc:$('jc'),sc:$('sc'),fmc:$('fmc'),jp:$('jp'),spf:$('spf'),fmp:$('fmp'),im:$('im'),go:$('go'),dm:$('dm'),cap:$('cap'),tsp:$('tsp'),tc:$('tc'),l4:$('l4'),lt:$('lt'),oc:$('oc'),bb:$('bb'),ts:$('ts')},canv=$('wheel'),ctx=canv.getContext('2d'),wb=$('wb');
+
+const WORKERS = [
+    { id: 'cn', name: 'Công nhân thường', price: 3000, baseSpeed: 0.020 },
+    { id: 'ts', name: 'Thợ tập sự', price: 6000, baseSpeed: 0.032 },
+    { id: 'ln', name: 'Thợ lành nghề', price: 10000, baseSpeed: 0.048 },
+    { id: 'cnn', name: 'Thợ chuyên nghiệp', price: 17000, baseSpeed: 0.072 },
+    { id: 'ks', name: 'Kỹ sư mỏ', price: 28000, baseSpeed: 0.105 },
+    { id: 'qd', name: 'Quản đốc mỏ', price: 45000, baseSpeed: 0.145 },
+    { id: 'mt', name: 'Máy đào tự động', price: 70000, baseSpeed: 0.185 },
+    { id: 'rb', name: 'Robot AI khai thác', price: 105000, baseSpeed: 0.225 }
+];
+
+const rew=[
+    {t:'10💰', c:'#FACC15', w: 90}, 
+    {t:'50💰', c:'#22C55E', w: 2}, 
+    {t:'500 Sắt', c:'#3B82F6', w: 2}, 
+    {t:'+5 Vé', c:'#F97316', w: 2}, 
+    {t:'100💰', c:'#EF4444', w: 2}, 
+    {t:'10 Kim Cương', c:'#8B5CF6', w: 2}
+];
+
+let d = JSON.parse(localStorage.getItem('d')) || {
+    g: 142, i: 44, t: 6, cap: 0, 
+    fs: 10, vs: 10, rs: 5, fc: 0, vc: 0, rc: 0, 
+    fp: 0, vp: 0, rp: 0, jc: 0, sc: 0, fmc: 0, 
+    go: 0, dm: 0, 
+    workers: {}, 
+    withdraws: [], 
+    task: { l4: 0, lt: 0, oc: 0, bb: 0 }, 
+    taskDate: '', cd: '', ltick: Date.now(), ls: 0
+};
+
+let activeTaskKey = 'l4';
+let rot = 0, spinfl = 0;
+
+function sv(){
+    const n = Date.now();
+    if(n - d.ls < 500) return;
+    d.ls = n;
+    localStorage.setItem('d', JSON.stringify(d));
+}
+
+function t(x){
+    els.ts.textContent = x;
+    els.ts.style.display = 'block';
+    setTimeout(()=>els.ts.style.display = 'none', 2200);
+}
+
+function o(x){
+    document.querySelectorAll('.tab-c,.tab-b').forEach(e=>e.classList.remove('a'));
+    $(x).classList.add('a');
+    event.target.classList.add('a');
+    if(x === 'wd') renderWithdrawHistory();
+}
+
+function checkDailyReset(){
+    const today = new Date().toDateString();
+    if(d.taskDate !== today){
+        d.taskDate = today;
+        d.task = { l4: 0, lt: 0, oc: 0, bb: 0 };
+        sv();
+    }
+}
+
+function calculateMiningSpeed(){
+    let totalSpeed = 0;
+    let totalCap = 0;
+    WORKERS.forEach((w, index) => {
+        if(d.workers[w.id]){
+            totalCap += w.price;
+            let currentSpeed = w.baseSpeed;
+            for(let j = index + 1; j < WORKERS.length; j++){
+                if(d.workers[WORKERS[j].id]) currentSpeed *= 0.5;
+            }
+            totalSpeed += currentSpeed;
+        }
+    });
+    if(totalSpeed === 0) totalSpeed = 0.000;
+    d.cap = totalCap;
+    return totalSpeed;
+}
+
+function renderWorkerList(){
+    let html = '';
+    WORKERS.forEach((w, index) => {
+        let isBought = d.workers[w.id];
+        let currentEff = w.baseSpeed;
+        if(isBought){
+            for(let j = index + 1; j < WORKERS.length; j++){
+                if(d.workers[WORKERS[j].id]) currentEff *= 0.5;
+            }
+        }
+        html += `
+        <div class="worker">
+            <div>
+                <div class="font-bold">${w.name}</div>
+                <div class="text-xs text-gray-500">${w.price.toLocaleString()}đ | Gốc: ${w.baseSpeed}/s ${isBought ? `(Hiệu suất: ${currentEff.toFixed(3)}/s)` : ''}</div>
+            </div>
+            <div>
+                ${isBought ? '<span class="px-2 py-1 bg-gray-200 text-gray-600 rounded-lg text-xs font-bold">Đã sở hữu</span>' : `<button onclick="buyWorker('${w.id}')" class="px-3 py-1.5 bg-blue-500 text-white text-xs rounded-lg">Mua</button>`}
+            </div>
+        </div>`;
+    });
+    $('worker-list').innerHTML = html;
+}
+
+function buyWorker(id){
+    let worker = WORKERS.find(w => w.id === id);
+    if(d.workers[id]) return t('❌ Bạn đã sở hữu thợ đào cấp này rồi!');
+    if(d.g < worker.price) return t('❌ Không đủ tiền!');
+    d.g -= worker.price;
+    d.workers[id] = true;
+    sv();
+    up();
+    t('✅ Mua thợ đào thành công!');
+}
+
+function up(){
+    checkDailyReset();
+    let currentSpeed = calculateMiningSpeed();
+    els.g.textContent = Math.floor(d.g);
+    els.i.textContent = Math.floor(d.i);
+    els.t.textContent = Math.floor(d.t);
+    els.sp.textContent = currentSpeed.toFixed(3);
+    els.cap.textContent = d.cap.toLocaleString() + 'đ';
+    els.tsp.textContent = currentSpeed.toFixed(3);
+    
+    els.fs.textContent = d.fs; els.vs.textContent = d.vs; els.rs.textContent = d.rs;
+    els.fc.textContent = Math.floor(d.fc); els.vc.textContent = Math.floor(d.vc); els.rc.textContent = Math.floor(d.rc);
+    els.fp.style.width = `${d.fp}%`; els.vp.style.width = `${d.vp}%`; els.rp.style.width = `${d.rp}%`;
+    els.jc.textContent = Math.floor(d.jc); els.sc.textContent = Math.floor(d.sc); els.fmc.textContent = Math.floor(d.fmc);
+    els.jp.style.width = `${d.jp}%`; els.spf.style.width = `${d.spf}%`; els.fmp.style.width = `${d.fmp}%`;
+    els.im.textContent = Math.floor(d.i); els.go.textContent = Math.floor(d.go); els.dm.textContent = Math.floor(d.dm); els.tc.textContent = Math.floor(d.t);
+    
+    if(els.l4) els.l4.textContent = d.task.l4 || 0;
+    if(els.lt) els.lt.textContent = d.task.lt || 0;
+    if(els.oc) els.oc.textContent = d.task.oc || 0;
+    if(els.bb) els.bb.textContent = d.task.bb || 0;
+    if($('wd-bal')) $('wd-bal').textContent = Math.floor(d.g);
+    renderWorkerList();
+}
+
+function b(x,p){if(d.g<p)return t('❌ Không đủ tiền');d.g-=p;d[`${x}s`]++;sv();up();t('✅ Mua xong')}
+function h(x){if(d[`${x}p`]<100)return t('⏳ Chưa chín');if(d[`${x}s`]<1)return t('❌ Hết hạt');d[`${x}s`]--;d[x]+=Math.floor(Math.random()*3)+2;d[`${x}p`]=0;sv();up();t('🎉 Thu hoạch xong')}
+function mk(tName,s,n){if(d[s]<n)return t(`❌ Cần ${n} nguyên liệu`);if(d[`${tName}p`]<100){d[s]-=n;d[`${tName}p`]=100;sv();up();return t('✅ Đang chế biến')}d[tName]+=2;d[`${tName}p`]=0;sv();up();t('🎉 Xong')}
+function sl(x,p){if(d[x]<1)return t('❌ Không có hàng');d.g+=Math.floor(d[x])*p;d[x]=0;sv();up();t(`💰 +${Math.floor(d[x])*p}💰`)}
+function slall(){let s=Math.floor((d.jc+d.sc+d.fmc)*3);if(!s)return t('❌ Không có hàng');d.g+=s;d.jc=d.sc=d.fmc=0;sv();up();t(`💰 +${s}💰`)}
+function cv(){let s=Math.floor(d.i/7)+Math.floor(d.go*3)+Math.floor(d.dm*10);if(!s)return t('❌ Không có quặng để đổi');d.g+=s;d.i=d.go=d.dm=0;sv();up();t(`💰 Đổi được ${s}💰`)}
+function ck(){const n=new Date().toDateString();if(d.cd===n)return t('✅ Hôm nay đã điểm danh rồi');d.cd=n;d.t+=Math.floor(Math.random()*3)+1;sv();up();t(`🎉 Nhận được ${d.t%3+1} vé!`)}
+
+function draw(){let s=canv.width,c=s/2;ctx.clearRect(0,0,s,s);rew.forEach((r,i)=>{let a=i*(Math.PI*2/rew.length);ctx.beginPath();ctx.fillStyle=r.c;ctx.moveTo(c,c);ctx.arc(c,c,c,a,a+(Math.PI*2/rew.length));ctx.fill()});ctx.beginPath();ctx.fillStyle='#fff';ctx.arc(c,c,12,0,Math.PI*2);ctx.fill()}
+
+function getRandomRewardIndex(){
+    let totalWeight = rew.reduce((sum, item) => sum + item.w, 0);
+    let randomNum = Math.random() * totalWeight;
+    let currentWeightSum = 0;
+    for(let i = 0; i < rew.length; i++){
+        currentWeightSum += rew[i].w;
+        if(randomNum <= currentWeightSum) return i;
+    }
+    return 0;
+}
+
+function spin(){
+    if(spinfl||d.t<1)return t(spinfl?'⏳ Đang quay':'❌ Không đủ vé');
+    spinfl=1;wb.disabled=1;d.t--;sv();up();
+    let r = getRandomRewardIndex();
+    rot+=2160+(360/rew.length)*(rew.length-r-0.5);
+    canv.style.transform=`rotate(${rot}deg)`;
+    setTimeout(()=>{
+        spinfl=0;wb.disabled=0;
+        if(r==0)d.g+=10;
+        if(r==1)d.g+=50;
+        if(r==2)d.i+=500;
+        if(r==3)d.t+=5;
+        if(r==4)d.g+=100;
+        if(r==5)d.dm+=10;
+        sv();up();t(`🎉 Trúng: ${rew[r].t}`);
+    },4500)}
+
+function startTask(taskKey, targetUrl){
+    checkDailyReset();
+    if(!d.task) d.task = {l4:0, lt:0, oc:0, bb:0};
+    if(d.task[taskKey] >= 2) return t('❌ Link này đã đạt tối đa 2 lần hôm nay!');
+    
+    activeTaskKey = taskKey;
+    if(tg && tg.openLink){
+        tg.openLink(targetUrl);
+    } else {
+        window.open(targetUrl, '_blank');
+    }
+    $('modal-verify').style.display = 'flex';
+}
+
+function closeModal(){
+    $('modal-verify').style.display = 'none';
+    $('input-code').value = '';
+}
+
+// BỎ KIỂM TRA MÃ CỨNG: Miễn người dùng nhập mã từ trang đích (như 0AOLP9, Z9JA58...) vào là cho nhận thưởng
+function verifyCode(){
+    let inputCode = $('input-code').value.trim();
+    if(!inputCode || inputCode.length < 3){
+        return t('❌ Vui lòng nhập mã xác nhận từ trang đích!');
+    }
+    
+    checkDailyReset();
+    if(!d.task) d.task = {l4:0, lt:0, oc:0, bb:0};
+    
+    if(d.task[activeTaskKey] < 2){
+        d.task[activeTaskKey]++;
+        d.g += 300; 
+        d.i += 150; 
+        sv();
+        up();
+        t('🎉 Nhận thưởng thành công (+300 Coin vàng +150 Sắt)!');
+        closeModal();
+    } else {
+        t('❌ Nhiệm vụ này đã đầy lượt hôm nay!');
+        closeModal();
+    }
+}
+
+function requestWithdraw(){
+    let bankName = $('bank-name').value.trim();
+    let bankHolder = $('bank-holder').value.trim();
+    let bankAcc = $('bank-acc').value.trim();
+    let amount = parseFloat($('wd-amount').value);
+    
+    if(!bankName || !bankHolder || !bankAcc){
+        return t('❌ Vui lòng nhập đầy đủ thông tin ngân hàng!');
+    }
+    if(isNaN(amount) || amount < 10000){
+        return t('❌ Số tiền rút tối thiểu là 10.000 VNĐ!');
+    }
+    if(d.g < amount){
+        return t('❌ Số dư trong ví không đủ để rút!');
+    }
+    
+    d.g -= amount;
+    let newTx = {
+        id: 'WD' + Math.floor(100000 + Math.random() * 900000),
+        bank: bankName,
+        holder: bankHolder.toUpperCase(),
+        acc: bankAcc,
+        amount: amount,
+        time: new Date().toLocaleString(),
+        status: 'Đang xử lý'
+    };
+    
+    if(!d.withdraws) d.withdraws = [];
+    d.withdraws.unshift(newTx);
+    
+    sv();
+    up();
+    renderWithdrawHistory();
+    
+    $('bank-name').value = '';
+    $('bank-holder').value = '';
+    $('bank-acc').value = '';
+    $('wd-amount').value = '';
+    t('✅ Tạo lệnh rút tiền thành công! Trạng thái: Đang xử lý');
+}
+
+function renderWithdrawHistory(){
+    if(!d.withdraws || d.withdraws.length === 0){
+        $('wd-history').innerHTML = `<div class="text-gray-500 text-center py-2">Chưa có lệnh rút tiền nào.</div>`;
+        return;
+    }
+    let html = '';
+    d.withdraws.forEach(item => {
+        let statusColor = item.status === 'Thành công' ? 'text-green-600' : (item.status === 'Đang xử lý' ? 'text-orange-500' : 'text-red-500');
+        html += `
+        <div class="p-2 border-b border-gray-200 flex justify-between items-center">
+            <div>
+                <div class="font-bold">Mã: #${item.id} - ${item.bank}</div>
+                <div class="text-gray-600">STK: ${item.acc} (${item.holder})</div>
+                <div class="text-[10px] text-gray-400">${item.time}</div>
+            </div>
+            <div class="text-right">
+                <div class="font-bold text-blue-600">-${item.amount.toLocaleString()}đ</div>
+                <div class="font-semibold ${statusColor}">${item.status}</div>
+            </div>
+        </div>`;
+    });
+    $('wd-history').innerHTML = html;
+}
+
+function lp(){
+    let n = Date.now(), dt = (n - d.ltick) / 1e3;
+    d.ltick = n;
+    let currentSpeed = calculateMiningSpeed();
+    d.i += currentSpeed * dt;
+    Math.random() < 0.2 && (d.go += currentSpeed * 0.8 * dt);
+    Math.random() < 0.005 && (d.dm += 0.02 * dt);
+    
+    d.fp < 100 && d.fs > 0 && (d.fp = Math.min(100, d.fp + 0.25 * dt));
+    d.vp < 100 && d.vs > 0 && (d.vp = Math.min(100, d.vp + 0.3 * dt));
+    d.rp < 100 && d.rs > 0 && (d.rp = Math.min(100, d.rp + 0.2 * dt));
+    
+    sv();
+    up();
+    requestAnimationFrame(lp);
+}
+
+draw();
+up();
+renderWorkerList();
+lp();
+</script>
+</body>
+</html>
